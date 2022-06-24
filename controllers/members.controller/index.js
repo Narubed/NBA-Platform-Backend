@@ -18,6 +18,7 @@ exports.findAll = async (req, res) => {
     res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });
   }
 };
+
 exports.findOne = (req, res) => {
   const id = req.params.id;
   Members.findById(id)
@@ -35,6 +36,7 @@ exports.findOne = (req, res) => {
       });
     });
 };
+// ค้นหาตามเบอร์
 exports.findByTel = (req, res) => {
   const id = req.params.id;
   console.log(id);
