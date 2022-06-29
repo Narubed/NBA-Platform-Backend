@@ -27,29 +27,32 @@ var storage = multer.diskStorage({
 });
 exports.update = async (req, res) => {
   const id = req.params.id;
+  console.log(id);
   try {
     let upload = multer({ storage: storage }).fields([
       { name: "img_iden", maxCount: 10 },
       { name: "img_bank", maxCount: 10 },
     ]);
 
-    upload(req, res, function (err) {
-      if (!req.files.img_iden && !req.files.img_bank) {
-        uploadFileNoImage(req, res);
+    upload(req, res, async function (err) {
+      console.log(req.files, "มีัไฟล์ไหม");
+      // if (!req.files.img_iden && !req.files.img_bank) {
+      if (!req.files) {
+        console.log("ไม่มีรูปทั้ง 2 รูป");
+        await uploadFileNoImage(req, res);
       } else if (err instanceof multer.MulterError) {
         return res.send(err);
       } else if (err) {
         return res.send(err);
-      }
-      if (req.files.img_iden && req.files.img_bank) {
+      } else if (req.files.img_iden && req.files.img_bank) {
         console.log("มีรูปทั้ง 2 รูป");
-        uploadFileEditTwoImage(req, res);
+        await uploadFileEditTwoImage(req, res);
       } else if (req.files.img_iden && !req.files.img_bank) {
-        console.log("มีรูป1 รูปคือ img_iden");
+        await console.log("มีรูป1 รูปคือ img_iden");
         uploadFileEditImageIden(req, res);
       } else if (!req.files.img_iden && req.files.img_bank) {
         console.log("มีรูป1 รูปคือ img_bank");
-        uploadFileEditImageBank(req, res);
+        await uploadFileEditImageBank(req, res);
       }
     });
   } catch (error) {
@@ -323,6 +326,8 @@ exports.update = async (req, res) => {
     }
   }
   async function uploadFileNoImage(req, res) {
+    console.log("อะไรวะ");
+    const id = req.params.id;
     if (req.body.mem_password) {
       const salt = await bcrypt.genSalt(Number(process.env.SALT));
       const hashPassword = await bcrypt.hash(req.body.mem_password, salt);
@@ -353,6 +358,8 @@ exports.update = async (req, res) => {
           });
         });
     } else {
+      console.log("ไม่มีรูปและพาร์าส");
+      console.log(req.body, id);
       Members.findByIdAndUpdate(
         id,
         {
