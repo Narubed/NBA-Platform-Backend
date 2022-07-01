@@ -38,6 +38,8 @@ const membersSchema = new mongoose.Schema({
     required: true,
     default: "process",
   },
+  mem_upline: { type: Array, default: [] },
+  mem_allsale: { type: Number, required: true, default: 0 },
 });
 
 membersSchema.methods.generateAuthToken = function () {
@@ -71,6 +73,8 @@ const validate = (data) => {
     mem_money: Joi.number().precision(3).default(0),
     mem_credit: Joi.number().precision(3).default(0),
     mem_status: Joi.string().default("process"),
+    mem_upline: Joi.array(),
+    mem_allsale: Joi.number().precision(3).default(0),
   });
   return schema.validate(data);
 };
