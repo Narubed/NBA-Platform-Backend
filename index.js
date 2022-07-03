@@ -11,6 +11,8 @@ const connection = require("./config/db");
 const members = require("./routes/members");
 const login_members = require("./routes/login_members");
 const pay_register = require("./routes/pay.register");
+const money_history = require("./routes/money.history");
+const artwork = require("./routes/artwork");
 connection();
 
 // middlewares
@@ -20,6 +22,9 @@ app.use(cors());
 app.use("/v1/platform/members", members);
 app.use("/v1/platform/login_members", login_members);
 app.use("/v1/platform/pay_register", pay_register);
+app.use("/v1/platform/money_history", money_history);
+app.use("/v1/platform/project/artwork", artwork);
+
 console.log("asdasdsadas");
 const port = process.env.PORT || 8006;
 app.listen(port, console.log(`Listening on port ${port}...`));
