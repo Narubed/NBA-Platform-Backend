@@ -115,7 +115,6 @@ exports.update = async (req, res) => {
       } else if (err) {
         return res.send(err);
       } else {
-        console.log("มีไฟล์เเล้ว");
         uploadFileCreate(req, res);
       }
       async function uploadFileCreate(req, res) {

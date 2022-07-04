@@ -57,7 +57,6 @@ exports.update = async (req, res) => {
 
         generatePublicUrl(response.data.id);
         const { error } = validate(req.body);
-        console.log(error);
         if (error)
           return res.status(400).send({ message: error.details[0].message });
         const id = req.params.id;
@@ -67,7 +66,6 @@ exports.update = async (req, res) => {
           { useFindAndModify: false }
         )
           .then((data) => {
-            console.log(data);
             if (!data) {
               res.status(404).send({
                 message: `ไม่สามารถเเก้ไขข้อมูลนี้ได้`,

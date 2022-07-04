@@ -5,9 +5,7 @@ const { Members, validate } = require("../../models/members.model");
 const { MoneyHistory } = require("../../models/money.history.model");
 
 exports.update = async (req, res) => {
-  console.log(req.body);
   const id = req.params.id;
-  console.log(id);
   try {
     if (!req.body || !id) return res.send("กรุณากรอกข้อมูลให้ครบด้วย.");
 
@@ -16,8 +14,6 @@ exports.update = async (req, res) => {
     });
     if (user) {
       const newCredit = user.mem_credit - req.body.mem_credit;
-      console.log(newCredit);
-      console.log(user);
       await Members.findByIdAndUpdate(
         user._id,
         { mem_credit: newCredit },

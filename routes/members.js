@@ -16,10 +16,4 @@ router.get("/:id", members.findOne);
 router.get("/tel/:id", members.findByTel);
 router.delete("/:id", members.delete);
 
-// router.get("/", members.findAll);
-// router.get("/:id", members.findOne);
-// router.get("/phone/:id", members.findByPhone);
-
-// router.delete("/:id", members.delete);
-
 module.exports = router;

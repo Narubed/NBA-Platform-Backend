@@ -359,7 +359,6 @@ exports.update = async (req, res) => {
         });
     } else {
       console.log("ไม่มีรูปและพาร์าส");
-      console.log(req.body, id);
       Members.findByIdAndUpdate(
         id,
         {

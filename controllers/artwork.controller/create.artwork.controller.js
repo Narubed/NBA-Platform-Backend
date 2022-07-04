@@ -56,14 +56,10 @@ exports.create = async (req, res) => {
 
         generatePublicUrl(response.data.id);
         const { error } = validate(req.body);
-        console.log(error);
         if (error)
           return res.status(400).send({ message: error.details[0].message });
 
-        console.log(response.data.id);
-        console.log(req.body);
         await new ArtWork({ ...req.body, img_slip: response.data.id }).save();
-        console.log(response.data.id);
         res.status(201).send({
           message: "เพิ่มข้อมูลรายงานสำเร็จ",
           status: true,
@@ -90,7 +86,6 @@ async function generatePublicUrl(res) {
       fileId: fileId,
       fields: "webViewLink, webContentLink",
     });
-    // console.log(result.data);
   } catch (error) {
     console.log(error.message);
   }

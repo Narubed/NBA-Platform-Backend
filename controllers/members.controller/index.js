@@ -39,7 +39,6 @@ exports.findOne = (req, res) => {
 // ค้นหาตามเบอร์
 exports.findByTel = (req, res) => {
   const id = req.params.id;
-  console.log(id);
   Members.find({ mem_tel: id })
     .then((data) => {
       if (!data)
@@ -60,7 +59,6 @@ exports.delete = (req, res) => {
   const id = req.params.id;
   Members.findByIdAndRemove(id, { useFindAndModify: false })
     .then((data) => {
-      console.log(data);
       if (!data) {
         res.status(404).send({
           message: `ไม่สามารถลบผู้ใช้งานนี้ได้`,
