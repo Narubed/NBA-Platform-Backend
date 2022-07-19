@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
 const ArtWorkSchema = new mongoose.Schema({
+  mem_id: { type: String, required: true },
   cus_name: { type: String, required: true },
   cus_tel: { type: String, required: true },
   cus_lineid: { type: String, required: true, default: " " },
@@ -31,6 +32,7 @@ const ArtWork = mongoose.model("art_work", ArtWorkSchema);
 
 const validate = (data) => {
   const schema = Joi.object({
+    mem_id: Joi.string(),
     cus_name: Joi.string(),
     cus_tel: Joi.string(),
     cus_lineid: Joi.string().default(" "),
