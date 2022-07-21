@@ -2,47 +2,53 @@ const bcrypt = require("bcrypt");
 const multer = require("multer");
 const fs = require("fs");
 const { Members, validate } = require("../../models/members.model");
-const { MoneyHistory } = require("../../models/money.history.model");
+const { WalletHistory } = require("../../models/wallet.history.model");
 
-exports.update = async (req, res) => {
+exports.minusWallet = async (req, res) => {
   console.log(req.body);
-  const id = req.params.id;
   try {
-    if (!req.body || !id || !req.body.timestamp)
+    if (
+      !req.body.timestamp ||
+      !req.body.mem_id ||
+      !req.body.detail ||
+      !req.body.mem_amount
+    )
       return res.send("กรุณากรอกข้อมูลให้ครบด้วย.");
 
     const user = await Members.findOne({
-      _id: id,
+      _id: req.body.mem_id,
     });
     if (user) {
-      const newCredit = user.mem_credit + req.body.mem_credit;
-      const newAllsale = user.mem_allsale + req.body.mem_allsale;
+      const newMoney = user.mem_money - req.body.mem_amount;
+
       await Members.findByIdAndUpdate(
         user._id,
-        { mem_credit: newCredit, mem_allsale: newAllsale },
+        { mem_money: newMoney },
         { useFindAndModify: false }
       );
+
       const newHistory = {
-        mem_id: id,
-        detail: req.body.detail,
-        amount: req.body.mem_credit,
-        type: "add",
-        timestamp: req.body.timestamp,
+        wallet_mem_id: user._id,
+        wallet_detail: req.body.detail,
+        wallet_amount: req.body.mem_amount,
+        wallet_timestamp: req.body.timestamp,
+        wallet_type: "minus",
       };
-      await new MoneyHistory({
+      console.log("ถึงนี้ยังงงงงงง", newHistory);
+      await new WalletHistory({
         ...newHistory,
       }).save();
       res.status(201).send({ message: "สร้างข้อมูลสำเร็จ", status: true });
     } else {
       res.status(200).send({
         message: "ไม่มีผู้ใช้งานนนี้ในระบบ",
-        status: true,
+        status: false,
       });
     }
   } catch (error) {
     res.status(200).send({
-      message: "ไม่มีผู้ใช้งานนนี้ในระบบ",
-      status: true,
+      message: "ข้อมูลบางอย่างผิดพลาด",
+      status: false,
     });
   }
 };
