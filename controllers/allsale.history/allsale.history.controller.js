@@ -2,13 +2,13 @@ const bcrypt = require("bcrypt");
 const multer = require("multer");
 const fs = require("fs");
 const {
-  AllSelaHistory,
+  AllSaleHistory,
   validate,
-} = require("../../models/allsela.history.model");
+} = require("../../models/allsale.history.model");
 
 exports.findAll = async (req, res) => {
   try {
-    AllSelaHistory.find()
+    AllSaleHistory.find()
       .then(async (data) => {
         res.send({ data, message: "success", status: true });
       })
@@ -24,7 +24,7 @@ exports.findAll = async (req, res) => {
 
 exports.findOne = (req, res) => {
   const id = req.params.id;
-  AllSelaHistory.findById(id)
+  AllSaleHistory.findById(id)
     .then((data) => {
       if (!data)
         res
@@ -42,7 +42,7 @@ exports.findOne = (req, res) => {
 // ค้นหาตามเบอร์
 exports.findByMemberId = (req, res) => {
   const id = req.params.id;
-  AllSelaHistory.find({ alls_mem_id: id })
+  AllSaleHistory.find({ alls_mem_id: id })
     .then((data) => {
       if (!data)
         res

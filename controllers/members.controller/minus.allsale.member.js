@@ -3,11 +3,11 @@ const multer = require("multer");
 const fs = require("fs");
 const { Members } = require("../../models/members.model");
 const {
-  AllSelaHistory,
+  AllSaleHistory,
   validate,
-} = require("../../models/allsela.history.model");
+} = require("../../models/allsale.history.model");
 
-exports.minusAllSela = async (req, res) => {
+exports.minusAllSale = async (req, res) => {
   console.log(req.body);
   try {
     if (
@@ -22,11 +22,11 @@ exports.minusAllSela = async (req, res) => {
       _id: req.body.mem_id,
     });
     if (user) {
-      const newAllSela = user.mem_allsale - req.body.amount;
+      const newAllSale = user.mem_allsale - req.body.amount;
 
       await Members.findByIdAndUpdate(
         user._id,
-        { mem_allsale: newAllSela },
+        { mem_allsale: newAllSale },
         { useFindAndModify: false }
       );
       const newHistory = {
@@ -36,7 +36,7 @@ exports.minusAllSela = async (req, res) => {
         alls_timestamp: req.body.timestamp,
         alls_type: "minus",
       };
-      await new AllSelaHistory({ ...newHistory }).save();
+      await new AllSaleHistory({ ...newHistory }).save();
       res.status(201).send({ message: "สร้างข้อมูลสำเร็จ", status: true });
     } else {
       res.status(200).send({

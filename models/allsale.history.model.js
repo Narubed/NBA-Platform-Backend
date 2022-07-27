@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Joi = require("joi");
 
-const AllSelaHistorySchema = new mongoose.Schema({
+const AllSaleHistorySchema = new mongoose.Schema({
   alls_mem_id: { type: String, required: true },
   alls_detail: { type: String, required: true },
   alls_amount: { type: Number, required: true },
@@ -10,14 +10,14 @@ const AllSelaHistorySchema = new mongoose.Schema({
   alls_timestamp: { type: Date, required: false, default: Date.now() },
 });
 
-AllSelaHistorySchema.methods.generateAuthToken = function () {
+AllSaleHistorySchema.methods.generateAuthToken = function () {
   const token = jwt.sign({ _id: this._id }, process.env.JWTPRIVATEKEY, {
     expiresIn: "2h",
   });
   return token;
 };
 
-const AllSelaHistory = mongoose.model("allsela_history", AllSelaHistorySchema);
+const AllSaleHistory = mongoose.model("allsale_history", AllSaleHistorySchema);
 
 const validate = (data) => {
   const schema = Joi.object({
@@ -30,4 +30,4 @@ const validate = (data) => {
   return schema.validate(data);
 };
 
-module.exports = { AllSelaHistory, validate };
+module.exports = { AllSaleHistory, validate };

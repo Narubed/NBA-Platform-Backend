@@ -6,13 +6,13 @@ const minus_credit = require("../controllers/members.controller/minus.credit.mem
 const add_wallet = require("../controllers/members.controller/add.wallet.member");
 const minus_wallet = require("../controllers/members.controller/minus.wallet.member");
 const members = require("../controllers/members.controller");
-const minusAllsela = require("../controllers/members.controller/minus.allsela.member");
+const minusAllSale = require("../controllers/members.controller/minus.allsale.member");
 
 router.put("/add_credit/:id", add_credit.update);
 router.put("/minus_credit/:id", minus_credit.update);
 router.post("/add_wallet/", add_wallet.addWallet);
 router.post("/minus_wallet/", minus_wallet.minusWallet);
-router.post("/minus_allsela/", minusAllsela.minusAllSela);
+router.post("/minus_allsale/", minusAllSale.minusAllSale);
 
 router.post("/", create_members.create);
 router.put("/:id", update_members.update);
