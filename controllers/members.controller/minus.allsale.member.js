@@ -6,10 +6,12 @@ const {
   AllSaleHistory,
   validate,
 } = require("../../models/allsale.history.model");
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 exports.minusAllSale = async (req, res) => {
   console.log(req.body);
   try {
+    await CheckHeader(req, res);
     if (
       !req.body.timestamp ||
       !req.body.mem_id ||

@@ -3,10 +3,12 @@ const multer = require("multer");
 const fs = require("fs");
 const { Members, validate } = require("../../models/members.model");
 const { MoneyHistory } = require("../../models/money.history.model");
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 exports.update = async (req, res) => {
   const id = req.params.id;
   try {
+    await CheckHeader(req, res);
     if (!req.body || !id || !req.body.timestamp)
       return res.send("กรุณากรอกข้อมูลให้ครบด้วย.");
 

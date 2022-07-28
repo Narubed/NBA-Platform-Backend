@@ -2,9 +2,11 @@ const bcrypt = require("bcrypt");
 const multer = require("multer");
 const fs = require("fs");
 const { Compansation, validate } = require("../../models/compensation.model");
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 exports.create = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     const { error } = validate(req.body);
     console.log(error);
     if (error)
@@ -22,6 +24,7 @@ exports.create = async (req, res) => {
 };
 exports.findAll = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     Compansation.find()
       .then(async (data) => {
         res.send({ data, message: "success", status: true });
@@ -35,43 +38,59 @@ exports.findAll = async (req, res) => {
     res.status(500).send({ message: "มีบางอย่างผิดพลาด", status: false });
   }
 };
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   const id = req.params.id;
-  Compansation.findById(id)
-    .then((data) => {
-      if (!data)
-        res
-          .status(404)
-          .send({ message: "ไม่สามารถหารายงานนี้ได้", status: false });
-      else res.send({ data, status: true });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "มีบางอย่างผิดพลาด",
-        status: false,
+  try {
+    await CheckHeader(req, res);
+
+    Compansation.findById(id)
+      .then((data) => {
+        if (!data)
+          res
+            .status(404)
+            .send({ message: "ไม่สามารถหารายงานนี้ได้", status: false });
+        else res.send({ data, status: true });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "มีบางอย่างผิดพลาด",
+          status: false,
+        });
       });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
     });
+  }
 };
-exports.findMyMember = (req, res) => {
+exports.findMyMember = async (req, res) => {
   const id = req.params.id;
-  Compansation.find({ com_member_id: id })
-    .then((data) => {
-      if (!data)
-        res
-          .status(404)
-          .send({ message: "ไม่สามารถหารายงานนี้ได้", status: false });
-      else res.send({ data, status: true });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "มีบางอย่างผิดพลาด",
-        status: false,
+  try {
+    await CheckHeader(req, res);
+    Compansation.find({ com_member_id: id })
+      .then((data) => {
+        if (!data)
+          res
+            .status(404)
+            .send({ message: "ไม่สามารถหารายงานนี้ได้", status: false });
+        else res.send({ data, status: true });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "มีบางอย่างผิดพลาด",
+          status: false,
+        });
       });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
     });
+  }
 };
 
 exports.update = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     if (!req.body) {
       return res.status(400).send({
         message: "ส่งข้อมูลผิดพลาด",
@@ -103,26 +122,34 @@ exports.update = async (req, res) => {
   }
 };
 
-exports.delete = (req, res) => {
+exports.delete = async (req, res) => {
   const id = req.params.id;
-  Compansation.findByIdAndRemove(id, { useFindAndModify: false })
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({
-          message: `ไม่สามารถลบรายงานนี้ได้`,
+  try {
+    await CheckHeader(req, res);
+
+    Compansation.findByIdAndRemove(id, { useFindAndModify: false })
+      .then((data) => {
+        if (!data) {
+          res.status(404).send({
+            message: `ไม่สามารถลบรายงานนี้ได้`,
+            status: false,
+          });
+        } else {
+          res.send({
+            message: "ลบรายงานนี้เรียบร้อยเเล้ว",
+            status: true,
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "ไม่สามารถลบรายงานนี้ได้",
           status: false,
         });
-      } else {
-        res.send({
-          message: "ลบรายงานนี้เรียบร้อยเเล้ว",
-          status: true,
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "ไม่สามารถลบรายงานนี้ได้",
-        status: false,
       });
+  } catch (error) {
+    res.status(500).send({
+      status: false,
     });
+  }
 };

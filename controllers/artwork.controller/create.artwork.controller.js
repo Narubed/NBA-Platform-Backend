@@ -3,6 +3,7 @@ const multer = require("multer");
 const fs = require("fs");
 const { ArtWork, validate } = require("../../models/artwork.model");
 const { google } = require("googleapis");
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 const CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
@@ -28,6 +29,7 @@ var storage = multer.diskStorage({
 
 exports.create = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     let upload = multer({ storage: storage }).single("img_slip");
     upload(req, res, function (err) {
       if (!req.file) {

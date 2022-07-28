@@ -3,10 +3,12 @@ const { Members } = require("../models/members.model");
 const bcrypt = require("bcrypt");
 const Joi = require("joi");
 require("dotenv").config();
+const CheckHeader = require("../check.header/nbadigitalservice");
 
 router.post("/", async (req, res) => {
   // console.log(req.body);
   try {
+    await CheckHeader(req, res);
     const { error } = validate(req.body);
     if (error)
       return res.status(400).send({ message: error.details[0].message });

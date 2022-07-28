@@ -8,6 +8,7 @@ const CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
 const REDIRECT_URI = process.env.GOOGLE_DRIVE_REDIRECT_URI;
 const REFRESH_TOKEN = process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -28,8 +29,9 @@ const storage = multer.diskStorage({
 });
 
 exports.update = async (req, res) => {
-    console.log("update")
+  console.log("update");
   try {
+    await CheckHeader(req, res);
     if (!req.body) {
       return res.status(400).send({
         message: "ข้อมูลไม่ถูกต้อง",

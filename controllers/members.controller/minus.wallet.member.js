@@ -3,10 +3,12 @@ const multer = require("multer");
 const fs = require("fs");
 const { Members, validate } = require("../../models/members.model");
 const { WalletHistory } = require("../../models/wallet.history.model");
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 exports.minusWallet = async (req, res) => {
   console.log(req.body);
   try {
+    await CheckHeader(req, res);
     if (
       !req.body.timestamp ||
       !req.body.mem_id ||

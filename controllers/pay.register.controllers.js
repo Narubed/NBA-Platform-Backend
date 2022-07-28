@@ -10,6 +10,7 @@ const CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
 const REDIRECT_URI = process.env.GOOGLE_DRIVE_REDIRECT_URI;
 const REFRESH_TOKEN = process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
+const CheckHeader = require("../check.header/nbadigitalservice");
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -31,6 +32,7 @@ const storage = multer.diskStorage({
 
 exports.create = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     let upload = multer({ storage: storage }).single("img_slip");
     upload(req, res, function (err) {
       if (!req.file) {
@@ -82,6 +84,7 @@ exports.create = async (req, res) => {
 };
 exports.update = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     if (!req.body) {
       return res.status(400).send({
         message: "ข้อมูลไม่ถูกต้อง",
@@ -177,6 +180,7 @@ exports.update = async (req, res) => {
 
 exports.findAll = async (req, res) => {
   try {
+    await CheckHeader(req, res);
     PayRegister.find()
       .then(async (data) => {
         res.send({ data, message: "success", status: true });
@@ -191,45 +195,62 @@ exports.findAll = async (req, res) => {
   }
 };
 
-exports.findOne = (req, res) => {
+exports.findOne = async (req, res) => {
   const id = req.params.id;
-  PayRegister.findById(id)
-    .then((data) => {
-      if (!data)
-        res
-          .status(404)
-          .send({ message: "ไม่สามารถหาข้อมูลได้", status: false });
-      else res.send({ data, status: true });
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "มีบ่างอย่างผิดพลาด",
-        status: false,
-      });
-    });
-};
+  try {
+    await CheckHeader(req, res);
 
-exports.delete = (req, res) => {
-  const id = req.params.id;
-
-  PayRegister.findByIdAndRemove(id, { useFindAndModify: false })
-    .then((data) => {
-      if (!data) {
-        res.status(404).send({
-          message: `ไม่สามารถลบผู้ใช้งานนี้ได้`,
-          status: true,
-        });
-      } else {
-        res.send({
-          message: "ลบผู้ใช้งานสำเร็จ",
+    PayRegister.findById(id)
+      .then((data) => {
+        if (!data)
+          res
+            .status(404)
+            .send({ message: "ไม่สามารถหาข้อมูลได้", status: false });
+        else res.send({ data, status: true });
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "มีบ่างอย่างผิดพลาด",
           status: false,
         });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({
-        message: "ไม่สามารถลบผู้ใช้งานนี้ได้",
-        status: false,
       });
+  } catch (error) {
+    res.status(500).send({
+      message: "มีบ่างอย่างผิดพลาด",
+      status: false,
     });
+  }
+};
+
+exports.delete = async (req, res) => {
+  const id = req.params.id;
+  try {
+    await CheckHeader(req, res);
+
+    PayRegister.findByIdAndRemove(id, { useFindAndModify: false })
+      .then((data) => {
+        if (!data) {
+          res.status(404).send({
+            message: `ไม่สามารถลบผู้ใช้งานนี้ได้`,
+            status: true,
+          });
+        } else {
+          res.send({
+            message: "ลบผู้ใช้งานสำเร็จ",
+            status: false,
+          });
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "ไม่สามารถลบผู้ใช้งานนี้ได้",
+          status: false,
+        });
+      });
+  } catch (error) {
+    res.status(500).send({
+      message: "ไม่สามารถลบผู้ใช้งานนี้ได้",
+      status: false,
+    });
+  }
 };

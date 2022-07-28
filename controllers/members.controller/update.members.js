@@ -8,6 +8,7 @@ const CLIENT_ID = process.env.GOOGLE_DRIVE_CLIENT_ID;
 const CLIENT_SECRET = process.env.GOOGLE_DRIVE_CLIENT_SECRET;
 const REDIRECT_URI = process.env.GOOGLE_DRIVE_REDIRECT_URI;
 const REFRESH_TOKEN = process.env.GOOGLE_DRIVE_REFRESH_TOKEN;
+const CheckHeader = require("../../check.header/nbadigitalservice");
 
 const oauth2Client = new google.auth.OAuth2(
   CLIENT_ID,
@@ -29,6 +30,7 @@ exports.update = async (req, res) => {
   const id = req.params.id;
   console.log(id);
   try {
+    await CheckHeader(req, res);
     let upload = multer({ storage: storage }).fields([
       { name: "img_iden", maxCount: 10 },
       { name: "img_bank", maxCount: 10 },
