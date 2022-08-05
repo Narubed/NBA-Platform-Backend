@@ -17,6 +17,7 @@ const CounterServiceSchema = new mongoose.Schema({
   service_total: { type: Number, required: true },
   service_img: { type: String, required: true },
   service_status: { type: String, required: false, default: "process" },
+  service_cancel: { type: String, required: false, default: " " },
   timestamp: { type: Date, required: false, default: Date.now() },
 });
 
@@ -45,6 +46,7 @@ const validate = (data) => {
     service_total: Joi.number().precision(3),
     service_img: Joi.string(),
     service_status: Joi.string().default("process"),
+    service_cancel: Joi.string().default(" "),
     timestamp: Joi.date().raw().default(Date.now()),
   });
   return schema.validate(data);
