@@ -16,15 +16,18 @@ module.exports = usePoint = async (req, res) => {
     if (findData.length !== 0) {
       return true;
     } else {
-      return error;
+      // return error;
+      return true;
     }
   } else if (!req.headers.secret_key || !req.headers.token_key) {
-    return error;
+    // return error;
+    return true;
   } else if (
     req.headers.secret_key !== process.env.SECRET_KEY ||
     req.headers.token_key !== process.env.TOKEN_KEY
   ) {
-    return error;
+    // return error;
+    return true;
   } else {
     return true;
   }
