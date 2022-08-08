@@ -18,6 +18,7 @@ const ArtWorkSchema = new mongoose.Schema({
   img_slip: { type: String, required: true },
   tracking_number: { type: String, required: true, default: " " },
   express_brand: { type: String, required: true, default: " " },
+  project_cancel: { type: String, required: true, default: " " },
   timestamp: { type: Date, required: false, default: Date.now() },
 });
 
@@ -47,6 +48,7 @@ const validate = (data) => {
     img_slip: Joi.string(),
     tracking_number: Joi.string().default(" "),
     express_brand: Joi.string().default(" "),
+    project_cancel: Joi.string().default(" "),
     timestamp: Joi.date().raw().default(Date.now()),
   });
   return schema.validate(data);
