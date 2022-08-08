@@ -26,7 +26,7 @@ app.use("/v1/platform/money_history", money_history);
 app.use("/v1/platform/project/artwork", artwork);
 app.use("/v1/platform/wallet_history", require("./routes/wallet.history"));
 app.use("/v1/platform/allsale_history", require("./routes/allsale.history"));
-app.use("/v1/platform/compansation", require("./routes/compansation"));
+app.use("/v1/platform/compensation", require("./routes/compensation"));
 app.use("/v1/platform/wallet_topup", require("./routes/wallet.topup"));
 app.use("/v1/platform/project/counter_service", require("./routes/counter.service"));
 app.use("/v1/platform/project/counter_evidence", require("./routes/counter.evidence"));

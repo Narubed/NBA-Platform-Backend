@@ -5,7 +5,6 @@ const Joi = require("joi");
 const CompansationSchema = new mongoose.Schema({
   com_member_id: { type: String, required: true },
   com_project_id: { type: String, required: true },
-
   com_product_price: { type: Number, required: true },
   com_freight: { type: Number, required: true },
   com_vat: { type: Number, required: true },
@@ -16,7 +15,7 @@ const CompansationSchema = new mongoose.Schema({
   com_lv_two: { type: Number, required: true },
   com_lv_tree: { type: Number, required: true },
   com_lv_office: { type: Number, required: true },
-  com_all_sela: { type: Number, required: true },
+  com_all_sale: { type: Number, required: true },
   com_funds: { type: Number, required: true },
   com_province: { type: Number, required: true },
   com_district: { type: Number, required: true },
@@ -49,7 +48,7 @@ const validate = (data) => {
     com_lv_two: Joi.number().precision(3),
     com_lv_tree: Joi.number().precision(3),
     com_lv_office: Joi.number().precision(3),
-    com_all_sela: Joi.number().precision(3),
+    com_all_sale: Joi.number().precision(3),
     com_funds: Joi.number().precision(3),
     com_province: Joi.number().precision(3),
     com_district: Joi.number().precision(3),

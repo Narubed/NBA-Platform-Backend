@@ -1,6 +1,6 @@
 const router = require("express").Router();
 
-const Compansation = require("../controllers/compansation.controller");
+const Compansation = require("../controllers/compensation.controller");
 
 router.post("/", Compansation.create);
 router.get("/", Compansation.findAll);
