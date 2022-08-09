@@ -10,6 +10,7 @@ const WalletTopupSchema = new mongoose.Schema({
   referenceNo: { type: String, required: false, default: " " },
   gbpReferenceNo: { type: String, required: false, default: " " },
   status: { type: String, required: false, default: "process" },
+  reason_cencal: { type: String, required: false, default: " " },
   timestamp: { type: Date, required: false, default: Date.now() },
 });
 
@@ -31,6 +32,7 @@ const validate = (data) => {
     referenceNo: Joi.string().default(" "),
     gbpReferenceNo: Joi.string().default(" "),
     status: Joi.string().default("process"),
+    reason_cencal: Joi.string().default(" "),
     timestamp: Joi.date().raw().default(Date.now()),
   });
   return schema.validate(data);
