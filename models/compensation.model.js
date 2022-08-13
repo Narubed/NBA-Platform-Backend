@@ -21,6 +21,7 @@ const CompansationSchema = new mongoose.Schema({
   com_district: { type: Number, required: true },
   com_sub_district: { type: Number, required: true },
   com_bonus_staff: { type: Number, required: true },
+  com_company_profit: { type: Number, required: true },
   com_timestamp: { type: Date, required: false, default: Date.now() },
 });
 
@@ -54,7 +55,7 @@ const validate = (data) => {
     com_district: Joi.number().precision(3),
     com_sub_district: Joi.number().precision(3),
     com_bonus_staff: Joi.number().precision(3),
-
+    com_company_profit: Joi.number().precision(3),
     com_timestamp: Joi.date().raw().default(Date.now()),
   });
   return schema.validate(data);
