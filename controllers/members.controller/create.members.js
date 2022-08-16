@@ -103,7 +103,7 @@ exports.create = async (req, res) => {
       await new Members({
         ...req.body,
         mem_password: hashPassword,
-        img_iden: responseBank.data.id,
+        img_iden: responseIden.data.id,
         img_bank: responseBank.data.id,
       }).save();
 

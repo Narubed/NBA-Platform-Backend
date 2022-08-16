@@ -2,6 +2,7 @@ require("dotenv").config();
 module.exports = usePoint = async (req, res) => {
   if (req.headers.origin) {
     const web = [
+      "http://localhost",
       "http://localhost:3000",
       "https://nbadigitalservice.com",
       "https://happy-point.nbadigitalservice.com",
