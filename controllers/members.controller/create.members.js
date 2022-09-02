@@ -23,7 +23,7 @@ const drive = google.drive({
 
 var storage = multer.diskStorage({
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 exports.create = async (req, res) => {

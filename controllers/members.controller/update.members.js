@@ -23,12 +23,12 @@ const drive = google.drive({
 
 var storage = multer.diskStorage({
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    console.log(file);
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 exports.update = async (req, res) => {
   const id = req.params.id;
-  console.log(id);
   try {
     await CheckHeader(req, res);
     let upload = multer({ storage: storage }).fields([

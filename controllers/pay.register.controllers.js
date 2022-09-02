@@ -26,7 +26,7 @@ const drive = google.drive({
 // Create and Save a new user
 const storage = multer.diskStorage({
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 

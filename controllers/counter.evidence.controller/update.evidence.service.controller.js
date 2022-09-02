@@ -1,7 +1,10 @@
 const bcrypt = require("bcrypt");
 const multer = require("multer");
 const fs = require("fs");
-const { CounterEvidence, validate } = require("../../models/counter.evidence.model");
+const {
+  CounterEvidence,
+  validate,
+} = require("../../models/counter.evidence.model");
 const { google } = require("googleapis");
 const CheckHeader = require("../../check.header/nbadigitalservice");
 
@@ -23,7 +26,7 @@ const drive = google.drive({
 
 var storage = multer.diskStorage({
   filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
+    cb(null, file.fieldname + "-" + Date.now());
   },
 });
 
@@ -39,7 +42,9 @@ exports.update = async (req, res) => {
     upload(req, res, async function (err) {
       if (!req.file) {
         const id = req.params.id;
-        CounterEvidence.findByIdAndUpdate(id, req.body, { useFindAndModify: false })
+        CounterEvidence.findByIdAndUpdate(id, req.body, {
+          useFindAndModify: false,
+        })
           .then((data) => {
             if (!data) {
               res.status(404).send({

@@ -19,6 +19,7 @@ connection();
 app.use(express.json());
 app.use(cors());
 // routes
+app.use("/v1/platform/delete_image", require("./routes/deleteImage"));
 app.use("/v1/platform/members", members);
 app.use("/v1/platform/login_members", login_members);
 app.use("/v1/platform/pay_register", pay_register);
