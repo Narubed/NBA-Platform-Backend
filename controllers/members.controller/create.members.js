@@ -100,7 +100,7 @@ exports.create = async (req, res) => {
       const salt = await bcrypt.genSalt(Number(process.env.SALT));
       const hashPassword = await bcrypt.hash(req.body.mem_password, salt);
 
-      await new Members({
+      const result = await new Members({
         ...req.body,
         mem_password: hashPassword,
         img_iden: responseIden.data.id,
@@ -108,6 +108,7 @@ exports.create = async (req, res) => {
       }).save();
 
       res.status(201).send({
+        member_id: result._id,
         message: "เพิ่มข้อมูลผู้ใช้งานสำเร็จ",
         status: true,
       });

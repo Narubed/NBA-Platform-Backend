@@ -31,15 +31,15 @@ const membersSchema = new mongoose.Schema({
   mem_province: { type: String, required: true },
   mem_start: { type: Date, required: false, default: Date.now() },
   mem_expire: { type: Date, required: false, default: Date.now() },
-  mem_money: { type: Number, required: true, default: 0 },
-  mem_credit: { type: Number, required: true, default: 0 },
+  mem_money: { type: Number, required: false, default: 0 },
+  mem_credit: { type: Number, required: false, default: 0 },
   mem_status: {
     type: String,
-    required: true,
+    required: false,
     default: "process",
   },
-  mem_upline: { type: Array, default: [] },
-  mem_allsale: { type: Number, required: true, default: 0 },
+  mem_upline: { type: Array, required: false, default: [] },
+  mem_allsale: { type: Number, required: false, default: 0 },
 });
 
 membersSchema.methods.generateAuthToken = function () {
